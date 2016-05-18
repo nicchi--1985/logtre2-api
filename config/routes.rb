@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   scope '/api' do
     get 'index', controller: :import_csv
     post 'import', controller: :import_csv
+    get 'trades/index'
   end
 end
