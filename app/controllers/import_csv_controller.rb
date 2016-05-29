@@ -1,6 +1,6 @@
 class ImportCsvController < ApplicationController
   def index
-    render :json => {'msg': 'hello world'}
+    render :json => {'msg': "hello #{@current_user.name}"}
   end
   def import
     # broker = params[:broker]
