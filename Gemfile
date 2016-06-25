@@ -21,6 +21,7 @@ gem 'puma', '~> 3.0'
 # gem 'rack-cors'
 
 gem 'unicorn'
+gem 'omniauth-oauth2', '~> 1.3.1'
 gem 'omniauth-facebook'
 gem 'jwt'
 
