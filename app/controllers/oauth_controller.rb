@@ -3,10 +3,11 @@ class OauthController < ApplicationController
   def callback
     binding.pry
     auth = request.env['omniauth.auth']
-    @user = User.find_by_provider_and_uid(auth['provider'], auth['uid']) || User.create_with_omniauth(auth)
+    @user = User.find_by(provider: auth['provider'], uid: auth['uid']) || User.create_with_omniauth(auth)
     payload = build_payload(@user, auth)
     token = JsonWebToken.encode(payload)
     query = "token=" + token
+    binding.pry
     url = URI::HTTP.build(host: 'local.logtre.com', path: '/login', query: query).to_s
     redirect_to url
   end
