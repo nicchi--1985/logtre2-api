@@ -1,14 +1,12 @@
 class OauthController < ApplicationController
   skip_before_action :authenticate_request!
   def callback
-    binding.pry
     auth = request.env['omniauth.auth']
     @user = User.find_by(provider: auth['provider'], uid: auth['uid']) || User.create_with_omniauth(auth)
     payload = build_payload(@user, auth)
     token = JsonWebToken.encode(payload)
     query = "token=" + token
-    binding.pry
-    url = URI::HTTP.build(host: 'local.logtre.com', path: '/login', query: query).to_s
+    url = URI::HTTP.build(host: request['HTTP_HOST'], path: '/login', query: query).to_s
     redirect_to url
   end
 
