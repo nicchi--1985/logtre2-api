@@ -4,7 +4,7 @@ rails_root = File.expand_path('../../', __FILE__)
 ENV['BUNDLE_GEMFILE'] = rails_root + "/Gemfile"
 
 # ワーカーの数
-worker_processes 2
+worker_processes 1
 
 # ソケット
 listen  "#{rails_root}/tmp/unicorn.sock"
