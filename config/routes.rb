@@ -7,5 +7,6 @@ Rails.application.routes.draw do
     get 'auth/:provider/callback' => 'oauth#callback'
     post 'auth/:provider/callback' => 'oauth#callback'
     get 'logout' => 'oauth#destroy'
+    get 'me' => 'users#get_current_user'
   end
 end
