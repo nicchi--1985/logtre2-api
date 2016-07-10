@@ -1,7 +1,7 @@
 class Trade < ApplicationRecord
   # broker_no => 1:SBI
   # broker_trade_no 証券会社が採番した取引識別番号
-  def self.create_from_csv(stockComp, file)
+  def self.create_from_csv(user_id, stockComp, file)
     args_list = build_args_from_sbi_csv(stockComp, file)
     args_list.each do |args|
       self.create_with(args)
@@ -11,7 +11,7 @@ class Trade < ApplicationRecord
 
   private_class_method
     # SBI証券出力のcsvをparseする
-    def self.build_args_from_sbi_csv(stockComp, file)
+    def self.build_args_from_sbi_csv(user_id, stockComp, file)
       args_list = []
       CSV.foreach(file.path, headers: true, encoding: "Shift_JIS:UTF-8") do |row|
         if row.length == 20 then
@@ -20,7 +20,7 @@ class Trade < ApplicationRecord
             ary = [@@sbi_option_header_jp, values].transpose
             ary = Hash[*ary.flatten]
             args = {
-              "user_id": User.first().id,
+              "user_id": user_id,
               "broker_no": stockComp.to_i,
               "broker_trade_no": ary['約定番号'],
               "trade_type": trade_type_no(ary['取引']),
