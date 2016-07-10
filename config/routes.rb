@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     post 'import', controller: :import_csv
     get 'trades/index'
     get 'trades/summary' => 'trades#summary'
+    get 'trades/brokers' => 'trades#brokers'
     get 'auth/:provider/callback' => 'oauth#callback'
     post 'auth/:provider/callback' => 'oauth#callback'
     get 'logout' => 'oauth#destroy'
