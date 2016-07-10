@@ -8,6 +8,18 @@ class Trade < ApplicationRecord
           .find_or_create_by(user_id: args[:user_id], broker_trade_no: args[:broker_trade_no])
     end
   end
+  
+  def self.summarize(trades)
+    trade_amount_total = trades.inject(0) {|sum, trade| sum + (trade.trade_amount - trade.gain_loss_amount)}
+    gain_loss_total = trades.sum(:gain_loss_amount)
+    trade_count = trades.count
+    roi = (gain_loss_total.to_f / trade_amount_total.to_f * 100).round(2)
+    summary = {
+      :gain_loss => "#{gain_loss_total} 円",
+      :roi => "#{roi} %",
+      :trade_count => "#{trade_count} 回"
+    }
+  end
 
   private_class_method
     # SBI証券出力のcsvをparseする
