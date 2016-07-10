@@ -2,7 +2,7 @@ class Trade < ApplicationRecord
   # broker_no => 1:SBI
   # broker_trade_no 証券会社が採番した取引識別番号
   def self.create_from_csv(user_id, stockComp, file)
-    args_list = build_args_from_sbi_csv(stockComp, file)
+    args_list = build_args_from_sbi_csv(user_id, stockComp, file)
     args_list.each do |args|
       self.create_with(args)
           .find_or_create_by(user_id: args[:user_id], broker_trade_no: args[:broker_trade_no])
