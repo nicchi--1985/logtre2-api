@@ -1,8 +1,8 @@
 class Trade < ApplicationRecord
   # broker_no => 1:SBI
   # broker_trade_no 証券会社が採番した取引識別番号
-  def self.create_from_csv(file)
-    args_list = build_args_from_sbi_csv(file)
+  def self.create_from_csv(stockComp, file)
+    args_list = build_args_from_sbi_csv(stockComp, file)
     args_list.each do |args|
       self.create_with(args)
           .find_or_create_by(user_id: args[:user_id], broker_trade_no: args[:broker_trade_no])
@@ -11,7 +11,7 @@ class Trade < ApplicationRecord
 
   private_class_method
     # SBI証券出力のcsvをparseする
-    def self.build_args_from_sbi_csv(file)
+    def self.build_args_from_sbi_csv(stockComp, file)
       args_list = []
       CSV.foreach(file.path, headers: true, encoding: "Shift_JIS:UTF-8") do |row|
         if row.length == 20 then
@@ -21,7 +21,7 @@ class Trade < ApplicationRecord
             ary = Hash[*ary.flatten]
             args = {
               "user_id": User.first().id,
-              "broker_no": BrokerEnum::SBI,
+              "broker_no": stockComp.to_i,
               "broker_trade_no": ary['約定番号'],
               "trade_type": trade_type_no(ary['取引']),
               "trade_datetime": ary['約定日時'].to_datetime,
