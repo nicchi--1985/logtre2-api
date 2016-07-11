@@ -1,8 +1,8 @@
 class TradesController < ApplicationController
   BROKER_NAME = {
-    BrokerEnum::SBI => "SBI証券",
-    BrokerEnum::GMO => "GMO証券",
-    BrokerEnum::RAKUTEN => "楽天証券",
+    "sbi" => "SBI証券",
+    "gmo" => "GMO証券",
+    "rakuten" => "楽天証券",
   }
   def index
     trades = Trade.all()
@@ -16,7 +16,7 @@ class TradesController < ApplicationController
   end
   def brokers
     trades = current_user.trades.select(:broker_no).distinct
-    brokers = trades.map {|trade| {id: trade.broker_no, disp_name: BROKER_NAME[trade.broker_no]}}
+    brokers = trades.map {|trade| {name: trade.broker_no, disp_name: BROKER_NAME[trade.broker_no]}}
     render :json => brokers
   end
 end
