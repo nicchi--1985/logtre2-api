@@ -10,7 +10,7 @@ class TradesController < ApplicationController
   end
   def summary
     term_days = 360
-    trades = current_user.trades.where(["trade_datetime > ? and gain_loss_amount != 0", Date.today - term_days])
+    trades = current_user.trades.where(["trade_datetime > ? and trade_type = ?", Date.today - term_days, TradeTypeEnum::SELL])
     summary = Trade.summarize(trades=trades)
     render :json => summary
   end

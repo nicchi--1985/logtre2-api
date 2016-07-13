@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20160508181507) do
     t.integer  "trade_type",       default: 0, null: false
     t.datetime "trade_datetime",               null: false
     t.string   "brand_name"
+    t.integer  "product_no"
     t.integer  "product_price"
     t.integer  "trade_quantity"
     t.integer  "trade_amount"
