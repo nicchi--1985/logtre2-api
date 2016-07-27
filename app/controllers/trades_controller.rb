@@ -19,4 +19,11 @@ class TradesController < ApplicationController
     brokers = trades.map {|trade| {name: trade.broker_no, disp_name: BROKER_NAME[trade.broker_no]}}
     render :json => brokers
   end
+  def chart_data
+    trades = current_user.trades
+                         .where(["broker_no = ? and product_no = ? and trade_type = ?", params[:broker], params[:product], TradeTypeEnum::SELL])
+                         .order(:trade_datetime)
+    chart_data = ChartDataSerializer.serialize(trades)
+    render :json => chart_data
+  end
 end
