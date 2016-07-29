@@ -13,6 +13,7 @@ class CreateTrades < ActiveRecord::Migration[5.0]
       t.integer :trade_amount
       t.integer :gain_loss_amount
       t.date  :sq_date
+      t.date  :buy_date
       t.timestamps
     end
   end

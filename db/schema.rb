@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20160508181507) do
     t.integer  "trade_amount"
     t.integer  "gain_loss_amount"
     t.date     "sq_date"
+    t.date     "buy_date"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
   end

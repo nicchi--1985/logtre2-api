@@ -1,3 +1,5 @@
+require 'logger'
+
 class CSVParser
     def self.get_csv_parser(broker)
       case broker
@@ -40,7 +42,8 @@ class SBICSVParser < CSVParser
                     "trade_quantity": ary['約定数量'].to_i,
                     "trade_amount": ary['約定金額'].to_i,
                     "gain_loss_amount": ary['決済損益'].to_i,
-                    "sq_date": ary['SQ日'].to_date
+                    "sq_date": ary['SQ日'].to_date,
+                    "buy_date": parse_buy_date(ary['新規建日'])
                     }
                     args_list.push(args)
                 end
@@ -75,6 +78,15 @@ class SBICSVParser < CSVParser
             return :mini225
         else
             return :large225
+        end
+    end
+
+    def parse_buy_date(buy_date)
+        begin
+            buy_date.to_date
+        rescue => e
+            Logger.new(STDOUT).warn('parsing #{buy_date} failed: #{e.message}')
+            return nil
         end
     end
 end
