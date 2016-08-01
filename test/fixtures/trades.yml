@@ -3,9 +3,61 @@
 # This model initially had no columns defined. If you add columns to the
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+  # user_id: 
+  # broker_no:
+  # broker_trade_no:
+  # trade_type:
+  # trade_datetime:
+  # brand_name:
+  # product_no:
+  # product_price:
+  # trade_quantity:
+  # trade_amount:
+  # gain_loss_amount:
+  # sq_date:
+  # buy_date:
+
+one:
+  user_id: 1
+  broker_no: 0
+  broker_trade_no: "100000001-001"
+  trade_type: <%= TradeTypeEnum::BUY %>
+  trade_datetime: <%= DateTime.new(2016, 7, 1, 10, 0, 0) %>
+  brand_name: 0
+  product_no: 0
+  product_price: 10000
+  trade_quantity: 2
+  trade_amount: 20000
+  gain_loss_amount: <%= nil %>
+  sq_date: <%= Date.new(2016, 9, 15) %>
+  buy_date: <%= nil %>
+
+two:
+  user_id: 1
+  broker_no: 0
+  broker_trade_no: "100000002-001"
+  trade_type: <%= TradeTypeEnum::SELL %>
+  trade_datetime: <%= Date.new(2016, 7, 20) %>
+  brand_name: 0
+  product_no: 0
+  product_price: 12000
+  trade_quantity: 1
+  trade_amount: 12000
+  gain_loss_amount: 2000
+  sq_date: <%= Date.new(2016, 9, 15) %>
+  buy_date: <%= Date.new(2016, 7, 1) %>
+
+three:
+  user_id: 2
+  broker_no: 0
+  broker_trade_no: "100000003-001"
+  trade_type: <%= TradeTypeEnum::BUY %>
+  trade_datetime: <%= Date.new(2016, 7, 1) %>
+  brand_name: 0
+  product_no: 0
+  product_price: 10000
+  trade_quantity: 2
+  trade_amount: 20000
+  gain_loss_amount: <%= nil %>
+  sq_date: <%= Date.new(2016, 9, 15) %>
+  buy_date: <%= nil %>
