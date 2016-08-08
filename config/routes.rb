@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     get 'trades/summary' => 'trades#summary'
     get 'trades/brokers' => 'trades#brokers'
     get 'trades/:broker/:product' => 'trades#chart_data'
+    get 'trades/analytics' => 'trades#analytics'
     get 'products/:broker' => 'products#index'
     get 'auth/:provider/callback' => 'oauth#callback'
     post 'auth/:provider/callback' => 'oauth#callback'

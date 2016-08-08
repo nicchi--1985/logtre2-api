@@ -1,7 +1,6 @@
 class Trade < ApplicationRecord
   enum broker_no: {sbi: 0, gmo: 1, rakuten: 2}
   enum product_no: {put: 0, call: 1, mini225: 2, large225: 3, jpx: 4, topix: 5, topixmini: 6, nikkei6: 7, dow: 8}
-  # broker_no => 1:SBI
   # broker_trade_no 証券会社が採番した取引識別番号
   def self.create_from_csv(user_id, broker, file)
     args_list = build_args_from_csv(broker, file)

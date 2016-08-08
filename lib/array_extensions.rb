@@ -8,7 +8,8 @@ class Array
     end
 
     def vari
-        reduce(0) { |a,b| a + (b - avg) ** 2 } / (size - 1)
+        av = avg
+        reduce(0) { |a,b| a + (b - av) ** 2 } / (size - 1)
     end
 
     def sd
