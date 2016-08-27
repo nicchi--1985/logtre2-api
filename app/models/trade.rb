@@ -12,9 +12,10 @@ class Trade < ApplicationRecord
   
   # 取引サマリを返す
   def self.summarize(trades)
-    trade_amount_total = trades.inject(0) {|sum, trade| sum + (trade.trade_amount - trade.gain_loss_amount)}
-    gain_loss_total = trades.sum(:gain_loss_amount)
     trade_count = trades.count
+    selling_trades = trades.where(["trade_type = ?", TradeTypeEnum::SELL])
+    trade_amount_total = selling_trades.inject(0) {|sum, trade| sum + (trade.trade_amount - trade.gain_loss_amount)}
+    gain_loss_total = selling_trades.sum(:gain_loss_amount)
     roi = (gain_loss_total.to_f / trade_amount_total.to_f * 100).round(2)
     summary = {
       :gain_loss => "#{gain_loss_total} 円",
