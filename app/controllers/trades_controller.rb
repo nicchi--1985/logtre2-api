@@ -11,7 +11,7 @@ class TradesController < ApplicationController
   end
 
   def summary
-    term_days = 360
+    term_days = 180
     trades = current_user.trades.where(["trade_datetime > ?", Date.today - term_days])
     summary = Trade.summarize(trades=trades)
     render :json => summary
@@ -32,7 +32,8 @@ class TradesController < ApplicationController
   end
 
   def analytics
-    trades = current_user.trades
+    term_days = 180
+    trades = current_user.trades.where(["trade_datetime > ?", Date.today - term_days])
     analytics = TradeAnalyzer.new(trades).analyze
     render :json => analytics
   end

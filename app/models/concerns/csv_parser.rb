@@ -31,6 +31,9 @@ class SBICSVParser < CSVParser
                 if values != @sbi_option_header_jp then
                     ary = [@sbi_option_header_jp, values].transpose
                     ary = Hash[*ary.flatten]
+                    if trade_type_no(ary['取引']) == TradeTypeEnum::UNKOWN
+                        next
+                    end
                     args = {
                     "broker_no": @broker,
                     "broker_trade_no": ary['約定番号'],
@@ -54,9 +57,11 @@ class SBICSVParser < CSVParser
 
     private
     def trade_type_no(type_str)
-      if type_str.include?("買")
+      if type_str.include?("放棄") or type_str.include?("消滅")
+        TradeTypeEnum::UNKOWN
+      elsif type_str.include?("新規買") or type_str.include?("新規売")
         TradeTypeEnum::BUY
-      elsif type_str.include?("売")
+      elsif type_str.include?("決済買") or type_str.include?("決済売")
         TradeTypeEnum::SELL
       else
         TradeTypeEnum::UNKOWN

@@ -68,8 +68,8 @@ class TradeAnalyzer
             },
             {
                 name: "平均保有期間",
-                value: normalize("holding_avg", holding_days_avg),
-                real_val: holding_days_avg
+                value: normalize("holding_avg", @holding_avg),
+                real_val: @holding_avg
             },
             {
                 name: "損益最高",
@@ -109,6 +109,10 @@ class TradeAnalyzer
 
         Rails.logger.debug("name: #{index_name}, value: #{index_value}, avg: #{avg}")
         norm_index = (index_value * (RADAR_RANGE / 2)) / avg
+        # 規格外の数値が出てしまった場合は、標準化後最高値の10に丸める
+        if norm_index > 10
+            norm_index = 10.0
+        end
         return norm_index.round(1)
     end
 
@@ -142,6 +146,7 @@ class TradeAnalyzer
     def new_trade_remaining_days_avg
         new_trades = @trades.where(["trade_type = ?",  TradeTypeEnum::BUY])
         remaining_days = new_trades.map {|t| t.sq_date - t.trade_datetime.to_date}
+        Rails.logger.debug("buy_trades.size:#{new_trades.size}")
         remaining_days.avg
     end
 
@@ -153,7 +158,16 @@ class TradeAnalyzer
 
     def holding_days_avg
         settlement_trades = @trades.where(["trade_type = ?", TradeTypeEnum::SELL])
-        holding_days = settlement_trades.map {|t| t.trade_datetime.to_date - t.buy_date}
+        # holding_days = settlement_trades.map {|t| t.trade_datetime.to_date - t.buy_date}
+        holding_days = []
+        settlement_trades.each do |t|
+            if t.trade_datetime.to_date && t.buy_date 
+                holding_days.push(t.trade_datetime.to_date - t.buy_date)
+            else
+                Rails.logger.debug("skiped trade_id: #{t.id}, trade_date: #{t.trade_datetime.to_date}, buy_date: #{t.buy_date}")
+            end
+        end
+        Rails.logger.debug("holding_days.size:#{holding_days.size}")
         holding_days.avg
     end
 
