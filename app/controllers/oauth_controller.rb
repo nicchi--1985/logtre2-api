@@ -6,7 +6,7 @@ class OauthController < ApplicationController
     payload = build_payload(@user, auth)
     token = JsonWebToken.encode(payload)
     query = "token=" + token
-    url = URI::HTTP.build(host: request['HTTP_HOST'], path: '/login', query: query).to_s
+    url = URI::HTTP.build(host: request.env['HTTP_HOST'], path: '/login', query: query).to_s
     redirect_to url
   end
 

@@ -51,38 +51,38 @@ class TradeAnalyzer
     def analyze
         return [
             {
-                name: "期間中取引回数",
+                name: "取引回数の多さ",
                 value: normalize("trade_count", trade_count),
                 real_val: trade_count
             },
             {
-                name: "SQまでの残日数(新規)",
+                name: "仕込みの早さ",
                 value: normalize("new_remaining_days", new_trade_remaining_days_avg),
                 real_val: new_trade_remaining_days_avg
 
             },
             {
-                name: "SQまでの残日数(決済)",
+                name: "手じまいの早さ",
                 value: normalize("settlement_remaining_days", settlement_trade_remaining_days_avg),
                 real_val: settlement_trade_remaining_days_avg
             },
             {
-                name: "平均保有期間",
+                name: "保有期間の長さ",
                 value: normalize("holding_avg", @holding_avg),
                 real_val: @holding_avg
             },
             {
-                name: "損益最高",
+                name: "最高利益の大きさ",
                 value: norm_gain_loss("max_gain_loss", max_gain_loss_amount),
                 real_val: max_gain_loss_amount
             },
             {
-                name: "損益最低",
+                name: "最低損失の小ささ",
                 value: norm_gain_loss("min_gain_loss", min_gain_loss_amount),
                 real_val: min_gain_loss_amount
             },
             {
-                name: "損益平均",
+                name: "損益平均の大きさ",
                 value: norm_gain_loss("avg_gain_loss", gain_loss_amount_avg),
                 real_val: gain_loss_amount_avg
             },
