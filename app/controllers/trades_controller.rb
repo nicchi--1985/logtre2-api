@@ -31,14 +31,18 @@ class TradesController < ApplicationController
 
   def chart_data
     term_days = 180
+    term_end = Date.today - (term_days * params[:term].to_i)
+    term_start = term_end + term_days
     trades = current_user.trades
-                         .where(["broker_no = ? and product_no = ? and trade_type = ? and trade_datetime > ?", 
+                         .where(["broker_no = ? and product_no = ? and trade_type = ? and trade_datetime >= ? and trade_datetime <= ?", 
                                   Trade.broker_nos[params[:broker].to_sym], 
                                   Trade.product_nos[params[:product].to_sym], 
                                   TradeTypeEnum::SELL, 
-                                  Date.today - term_days])
+                                  term_end,
+                                  term_start])
                          .order(:trade_datetime)
     chart_data = ChartDataSerializer.serialize(trades)
+    chart_data = chart_data.merge({term_start: term_start, term_end: term_end})
     Rails.logger.debug("chart_data: #{chart_data}")
     render :json => chart_data
   end
