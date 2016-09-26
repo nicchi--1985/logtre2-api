@@ -107,7 +107,6 @@ class TradeAnalyzer
         avg = factors[:avg]
         vari = factors[:vari]
 
-        Rails.logger.debug("name: #{index_name}, value: #{index_value}, avg: #{avg}")
         norm_index = (index_value * (RADAR_RANGE / 2)) / avg
         # 規格外の数値が出てしまった場合は、標準化後最高値の10に丸める
         if norm_index > 10
@@ -146,7 +145,6 @@ class TradeAnalyzer
     def new_trade_remaining_days_avg
         new_trades = @trades.where(["trade_type = ?",  TradeTypeEnum::BUY])
         remaining_days = new_trades.map {|t| t.sq_date - t.trade_datetime.to_date}
-        Rails.logger.debug("buy_trades.size:#{new_trades.size}")
         remaining_days.avg
     end
 
@@ -167,7 +165,6 @@ class TradeAnalyzer
                 Rails.logger.debug("skiped trade_id: #{t.id}, trade_date: #{t.trade_datetime.to_date}, buy_date: #{t.buy_date}")
             end
         end
-        Rails.logger.debug("holding_days.size:#{holding_days.size}")
         holding_days.avg
     end
 

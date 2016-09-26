@@ -43,7 +43,6 @@ class TradesController < ApplicationController
                          .order(:trade_datetime)
     chart_data = ChartDataSerializer.serialize(trades)
     chart_data = chart_data.merge({term_start: term_start, term_end: term_end})
-    Rails.logger.debug("chart_data: #{chart_data}")
     render :json => chart_data
   end
 

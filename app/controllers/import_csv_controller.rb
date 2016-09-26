@@ -4,7 +4,6 @@ class ImportCsvController < ApplicationController
   end
   def import
     trades = Trade.create_from_csv(current_user.id, params[:broker], params[:file])
-    logger.info('import req recieved')
     render :json => trades
   end
 end
