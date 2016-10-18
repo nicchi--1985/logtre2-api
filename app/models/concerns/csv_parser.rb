@@ -74,14 +74,14 @@ class SBICSVParser < CSVParser
         return :nikkei6 if brand_name.include?("日経平均")
         return :jpx if brand_name.include?("ＪＰＸ")
         return :dow if brand_name.include?("ＮＹ")
-        if brand_name.include?("TOPIX") and brand_name.include?("ミニ") then
+        if brand_name.include?("TOPIX") and brand_name.include?("ミニ")
             return :topixmini
-        else
+        elsif brand_name.include?("TOPIX")
             return :topix
         end
-        if brand_name.include?("２２５先物") and brand_name.include?("ミニ") then
+        if brand_name.include?("先物") and brand_name.include?("ミニ")
             return :mini225
-        else
+        elsif brand_name.include?("先物")
             return :large225
         end
     end
