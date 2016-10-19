@@ -31,8 +31,18 @@ class TradesController < ApplicationController
 
   def chart_data
     term_days = 180
-    term_end = Date.today - (term_days * params[:term].to_i)
+    ref_start = current_user.trades
+                            .where(["broker_no = ? and product_no = ? and trade_type = ?", 
+                                  Trade.broker_nos[params[:broker].to_sym], 
+                                  Trade.product_nos[params[:product].to_sym], 
+                                  TradeTypeEnum::SELL])
+                            .order("trade_datetime DESC")
+                            .first
+                            .trade_datetime.to_date
+    
+    term_end = ref_start - (term_days * params[:term].to_i)
     term_start = term_end + term_days
+    # select * from trades where broker_no=xx and product_no=yy and trade_type=zz order by trade_datetime desc limit 1;
     trades = current_user.trades
                          .where(["broker_no = ? and product_no = ? and trade_type = ? and trade_datetime >= ? and trade_datetime <= ?", 
                                   Trade.broker_nos[params[:broker].to_sym], 
