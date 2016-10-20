@@ -12,7 +12,17 @@ class TradesController < ApplicationController
 
   def summary
     term_days = 180
-    trades = current_user.trades.where(["trade_datetime > ?", Date.today - term_days])
+    ref_start = current_user.trades
+                            .where(["broker_no = ? and product_no = ? and trade_type = ?", 
+                                  Trade.broker_nos[params[:broker].to_sym], 
+                                  Trade.product_nos[params[:product].to_sym], 
+                                  TradeTypeEnum::SELL])
+                            .order("trade_datetime DESC")
+                            .first
+                            .trade_datetime.to_date
+    term_end = ref_start - (term_days * params[:term].to_i)
+    term_start = term_end + term_days
+    trades = current_user.trades.where(["trade_datetime >= ? and trade_datetime <= ?", term_end, term_start])
     if params[:broker]
       trades = trades.where(["broker_no=?", Trade.broker_nos[params[:broker].to_sym]])
     end
