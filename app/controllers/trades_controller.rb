@@ -11,6 +11,12 @@ class TradesController < ApplicationController
   end
 
   def summary
+    trades = current_user.trades.where(["trade_type = ?", TradeTypeEnum::SELL])
+    summary = Trade.summarize(trades=trades)
+    render :json => summary
+  end
+
+  def productSummary
     term_days = 180
     ref_start = current_user.trades
                             .where(["broker_no = ? and product_no = ? and trade_type = ?", 
@@ -36,6 +42,8 @@ class TradesController < ApplicationController
   def brokers
     trades = current_user.trades.select(:broker_no).distinct
     brokers = trades.map {|trade| {name: trade.broker_no, disp_name: BROKER_NAME[trade.broker_no]}}
+    logger.debug('response brokers')
+    logger.debug(brokers)
     render :json => brokers
   end
 

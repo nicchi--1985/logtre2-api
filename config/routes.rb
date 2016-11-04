@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     post 'import', controller: :import_csv
     get 'trades/index'
     get 'trades/summary' => 'trades#summary'
+    get 'trades/productSummary' => 'trades#productSummary'
     get 'trades/brokers' => 'trades#brokers'
     get 'trades/:broker/:product' => 'trades#chart_data'
     get 'trades/analytics' => 'trades#analytics'
