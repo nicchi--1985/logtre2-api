@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     get 'trades/:broker/:product' => 'trades#chart_data'
     get 'trades/analytics' => 'trades#analytics'
     get 'products/:broker' => 'products#index'
+    get 'chart_data/nikkei' => 'chart_data#nikkei'
     get 'auth/:provider/callback' => 'oauth#callback'
     post 'auth/:provider/callback' => 'oauth#callback'
     get 'logout' => 'oauth#destroy'

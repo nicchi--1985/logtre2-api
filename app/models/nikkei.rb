@@ -1,0 +1,2 @@
+class Nikkei < ApplicationRecord
+end

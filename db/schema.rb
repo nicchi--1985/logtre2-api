@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160508181507) do
+ActiveRecord::Schema.define(version: 20161108130657) do
+
+  create_table "nikkeis", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.date     "date",       null: false
+    t.integer  "last_price", null: false
+    t.integer  "open_price", null: false
+    t.integer  "high_price", null: false
+    t.integer  "low_price",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "trades", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id",          default: 0, null: false
