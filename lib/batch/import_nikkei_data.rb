@@ -1,5 +1,5 @@
 class ImportNikkeiDataBatch
-    @@logger = ActiveSupport::Logger.new(Rails.root.join("log/batch.log"))
+    @@logger = ActiveSupport::Logger.new(Rails.root.join("logs/batch.log"))
     def self.import
         CSV.foreach('tmp/nikkei_data_file/nikkei.csv', encoding: "Shift_JIS:UTF-8") do |row|
             begin
